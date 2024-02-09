@@ -1,0 +1,1 @@
+fmt.Printf("%s%s: %v", "\x1b[50;50H", "Debug:Start", cntl.Data)
