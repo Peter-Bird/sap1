@@ -1,9 +1,12 @@
+// pc/pc.go
+
 package pc
 
 import "sap-1/bus"
 
 /*
-   PC represents a 4-bit Program Counter.
+	PC represents a 4-bit Program Counter
+	interfacing with a system bus.
 
               ┏━━━━━━━━━━━━┓
       Cp ─────┨            ┃
@@ -12,33 +15,49 @@ import "sap-1/bus"
       Ep ─────┨            ┃
               ┗━━━━━━━━━━━━┛
 */
+
+const fourBitMask = 0x0F // Mask for ensuring 4-bit data
+
+// It supports operations like clear (NClr), clock (NClk),
+// count (Cp), and enable (Ep) for data transfer.
 type PC struct {
-	Wbus *bus.Bus
+	wbus *bus.Bus // System bus connection
 
-	Cp func() bool
-	Ep func() bool
+	cp func() bool // Count pulse, triggers PC increment
+	ep func() bool // Enable pulse, triggers data transfer to bus
 
-	Data uint8
+	data uint8 // Current counter value, 4-bit
 }
 
-// NewPC: Creates a new instance of a Program Counter (PC).
-func NewPC(Wbus *bus.Bus, Cp, Ep func() bool) *PC {
-	return &PC{Wbus: Wbus, Cp: Cp, Ep: Ep}
+// NewPC creates a new instance of a Program Counter.
+func New(wbus *bus.Bus, cp, ep func() bool) *PC {
+	return &PC{
+		wbus: wbus,
+		cp:   cp,
+		ep:   ep,
+		data: 0,
+	}
 }
 
-// NClr: Sets the Program Counter to zero.
-func (pc *PC) NClr() { pc.Data = 0 }
+// NClr resets the Program Counter to zero.
+func (pc *PC) NClr() {
+	pc.data = 0
+}
 
-/*
-	NClk: On the clock's dropping edge
-	- Ep: Writes the PC's value to the bus
-	- Cp: Increment the PC
-*/
+// NClk processes the clock's negative edge, handling data transfer
+// and counter increment based on control signals.
 func (pc *PC) NClk() {
-	if pc.Ep() {
-		pc.Wbus.Write(pc.Data & 0x0F)
+	if pc.ep() {
+		pc.wbus.Write(pc.data & fourBitMask)
 	}
-	if pc.Cp() {
-		pc.Data = (pc.Data + 1) & 0x0F
+	if pc.cp() {
+		pc.data = (pc.data + 1) & fourBitMask
 	}
 }
+
+// Read returns the value of the Program Counter
+func (pc *PC) Read() uint8 {
+	return pc.data
+}
+
+// End of package <PC>

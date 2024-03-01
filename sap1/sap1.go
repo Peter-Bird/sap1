@@ -58,7 +58,7 @@ func NewSap1() *Sap1 {
 	clk := clk.NewClock(100)
 
 	// Create Components
-	pc := pc.NewPC(dbus, cbus.Cp, cbus.Ep)
+	pc := pc.New(dbus, cbus.Cp, cbus.Ep)
 	mar := mar.NewMAR(dbus, rbus, cbus.NLm)
 	ram := ram.NewRam(dbus, rbus, cbus.NCE)
 	ir := ir.NewIR(dbus, ibus, cbus.NLi, cbus.NEi)
@@ -68,7 +68,7 @@ func NewSap1() *Sap1 {
 	alu := alu.NewALU(abus, bbus, dbus, cbus.Su, cbus.Eu)
 	breg := reg.NewReg(dbus, bbus, cbus.NLb)
 	oreg := reg.NewReg(dbus, obus, cbus.NLo)
-	dis := dis.NewDis(obus)
+	dis := dis.New(obus)
 
 	clk.SetHigh(cntl.Clk)
 	clk.SetLow(cntl.NClk)

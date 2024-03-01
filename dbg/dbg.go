@@ -55,7 +55,7 @@ func (dbg *Dbg) Tick() {
 	buff := scr.Buff{
 		Wbus: dbg.DBus.Data, Abus: dbg.ABus.Data, Bbus: dbg.BBus.Data,
 		Obus: dbg.OBus.Data, Rbus: dbg.RBus.Data, Ibus: dbg.IBus.Data,
-		Cbus: dbg.CBus.Data, PC: dbg.Pc.Data, Acc: dbg.Acc.Data,
+		Cbus: dbg.CBus.Data, PC: dbg.Pc.Read(), Acc: dbg.Acc.Data,
 		Alu: dbg.Alu.Data, BReg: dbg.BReg.Data, OReg: dbg.OReg.Data,
 		Dis: dbg.Dis.Data, Mar: dbg.Mar.Data, Ram: dbg.Ram.Data,
 		Ir: dbg.Ir.Data, Cntl: dbg.Cntl.Data, Mic: dbg.Cntl.MicroProg, Cnt: count,

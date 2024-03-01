@@ -3,14 +3,14 @@ package dis
 import "sap-1/bus"
 
 /*
-   Dis Simulates an 8-bit linear display.
+Dis Simulates an 8-bit linear display.
 
-         Obus (8)
-            ▼
-    ┏━━━━━━━┷━━━━━━━━┓
-    ┃    Display     ┃
-    ┃   ▢▢▢▢ ▢▢▢▢    ┃
-    ┗━━━━━━━━━━━━━━━━┛
+	     Obus (8)
+	        ▼
+	┏━━━━━━━┷━━━━━━━━┓
+	┃    Display     ┃
+	┃   ▢▢▢▢ ▢▢▢▢    ┃
+	┗━━━━━━━━━━━━━━━━┛
 */
 type Dis struct {
 	Obus *bus.Bus // Data (In) Bus
@@ -18,8 +18,8 @@ type Dis struct {
 	Data uint8
 }
 
-// NewDis: Creates a new a-synchronous Display
-func NewDis(Obus *bus.Bus) *Dis {
+// New: Creates a new a-synchronous Display
+func New(Obus *bus.Bus) *Dis {
 	return &Dis{Obus: Obus}
 }
 
